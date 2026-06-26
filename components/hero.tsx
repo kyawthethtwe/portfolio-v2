@@ -1,75 +1,126 @@
-import Link from "next/link";
-import { site } from "@/lib/content";
-import {
-  ArrowRightIcon,
-  GithubIcon,
-  LinkedinIcon,
-  MailIcon,
-} from "@/components/icons";
+import { hero, site } from "@/lib/content";
 
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden">
-      <div className="hero-glow" aria-hidden />
-      <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-5xl flex-col justify-center px-6 py-24">
-        <div className="hero-anim">
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 font-mono text-xs text-muted-foreground">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
-            Available for new opportunities
-          </p>
+    <section
+      id="about"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        overflowX: "hidden",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1180,
+          margin: "0 auto",
+          width: "100%",
+          padding: "120px clamp(22px, 5vw, 80px) 80px",
+        }}
+      >
+        <div
+          className="ff-mono"
+          style={{
+            fontSize: 12.5,
+            letterSpacing: ".12em",
+            textTransform: "uppercase",
+            color: "var(--muted)",
+            display: "flex",
+            alignItems: "center",
+            gap: 11,
+            marginBottom: "clamp(28px, 5vh, 52px)",
+          }}
+        >
+          <span
+            style={{
+              width: 7,
+              height: 7,
+              borderRadius: 999,
+              background: "var(--accent)",
+              display: "inline-block",
+            }}
+          />
+          {hero.eyebrow}
+        </div>
 
-          <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
-            {site.name}
-          </h1>
-          <p className="mt-3 text-xl font-medium text-muted-foreground sm:text-2xl">
-            {site.role}
-          </p>
-          <p className="mt-6 max-w-xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg">
-            {site.tagline}
-          </p>
+        <h1
+          style={{
+            margin: 0,
+            fontWeight: 400,
+            fontSize: "clamp(50px, 10.5vw, 150px)",
+            lineHeight: 0.92,
+            letterSpacing: "-.03em",
+          }}
+        >
+          {site.name.replace(/ /g, "\u00A0")}
+          <span style={{ color: "var(--accent)" }}>.</span>
+          <span
+            style={{
+              display: "block",
+              fontSize: ".32em",
+              fontStyle: "italic",
+              fontWeight: 300,
+              letterSpacing: "-.01em",
+              color: "var(--muted)",
+              marginTop: ".18em",
+            }}
+          >
+            {hero.subline}
+          </span>
+        </h1>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link
-              href="#projects"
-              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "clamp(28px, 4vw, 72px)",
+            marginTop: "clamp(40px, 7vh, 80px)",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              maxWidth: "15ch",
+              fontSize: "clamp(23px, 2.9vw, 38px)",
+              lineHeight: 1.16,
+              letterSpacing: "-.015em",
+              fontWeight: 400,
+            }}
+          >
+            {hero.statement}
+          </p>
+          <div style={{ maxWidth: "56ch" }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "clamp(17px, 1.5vw, 20px)",
+                lineHeight: 1.65,
+                color: "var(--muted)",
+              }}
             >
-              View my work
-              <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-foreground/5"
+              {hero.bio}
+            </p>
+            <div
+              className="ff-mono"
+              style={{
+                marginTop: 26,
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+                fontSize: 11.5,
+                letterSpacing: ".05em",
+                color: "var(--faint)",
+                textTransform: "uppercase",
+              }}
             >
-              Get in touch
-            </Link>
-          </div>
-
-          <div className="mt-8 flex items-center gap-5 text-muted-foreground">
-            <a
-              href={site.socials.github}
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-label="GitHub"
-              className="transition-colors hover:text-foreground"
-            >
-              <GithubIcon className="h-5 w-5" />
-            </a>
-            <a
-              href={site.socials.linkedin}
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-label="LinkedIn"
-              className="transition-colors hover:text-foreground"
-            >
-              <LinkedinIcon className="h-5 w-5" />
-            </a>
-            <a
-              href={`mailto:${site.email}`}
-              aria-label="Email"
-              className="transition-colors hover:text-foreground"
-            >
-              <MailIcon className="h-5 w-5" />
-            </a>
+              <span>
+                <span style={{ color: "var(--muted)" }}>{hero.education}</span> —{" "}
+                {hero.educationMeta}
+              </span>
+              <span>{hero.languages}</span>
+            </div>
           </div>
         </div>
       </div>

@@ -1,46 +1,72 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MoonIcon, SunIcon } from "@/components/icons";
 
 /**
- * Light/dark toggle. The initial theme is applied before paint by the inline
- * script in layout.tsx, so this component just reads the current state and
- * flips it (persisting the choice to localStorage).
+ * Pill toggle matching the design: 1px border, accent dot, and a label showing
+ * the action ("Dark" while light, "Light" while dark). The initial theme is set
+ * before paint by the inline script in layout.tsx; this reads and flips it,
+ * writing data-theme on <html> and persisting to localStorage['jot-theme'].
  */
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    setIsDark(document.documentElement.classList.contains("dark"));
+    setTheme(
+      document.documentElement.getAttribute("data-theme") === "dark"
+        ? "dark"
+        : "light",
+    );
   }, []);
 
   function toggle() {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle("dark", next);
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.setAttribute("data-theme", next);
     try {
-      localStorage.setItem("theme", next ? "dark" : "light");
+      localStorage.setItem("jot-theme", next);
     } catch {
-      // ignore (e.g. storage disabled)
+      // ignore (storage disabled)
     }
   }
+
+  // Before mount, render "Dark" to match the server output and avoid a flash.
+  const label = mounted && theme === "dark" ? "Light" : "Dark";
 
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
+      aria-label="Toggle theme"
+      className="ff-mono theme-btn"
+      style={{
+        cursor: "pointer",
+        background: "transparent",
+        border: "1px solid var(--line)",
+        borderRadius: 999,
+        padding: "7px 13px",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+        color: "var(--text)",
+        fontSize: 11,
+        letterSpacing: ".07em",
+        textTransform: "uppercase",
+        transition: "border-color 0.25s ease",
+      }}
     >
-      {/* Until mounted, render the moon to match server output and avoid a flash. */}
-      {mounted && isDark ? (
-        <SunIcon className="h-[18px] w-[18px]" />
-      ) : (
-        <MoonIcon className="h-[18px] w-[18px]" />
-      )}
+      <span
+        style={{
+          width: 7,
+          height: 7,
+          borderRadius: 999,
+          background: "var(--accent)",
+          display: "inline-block",
+        }}
+      />
+      <span>{label}</span>
     </button>
   );
 }

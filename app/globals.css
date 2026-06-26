@@ -1,96 +1,123 @@
 @import "tailwindcss";
 
-/* Enable class-based dark mode (toggled by the nav button + the no-flash
-   script in layout.tsx). Falls back to the user's system preference. */
-@custom-variant dark (&:where(.dark, .dark *));
-
+/* ── Design tokens (OKLCH), themed via [data-theme] ───────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --muted: #f4f4f5;
-  --muted-foreground: #52525b;
-  --border: #e4e4e7;
-  --card: #ffffff;
-  --accent: #2563eb;
-  --accent-foreground: #ffffff;
+  --bg: oklch(0.985 0.004 90);
+  --bg-2: oklch(0.965 0.005 90);
+  --text: oklch(0.22 0.01 60);
+  --muted: oklch(0.52 0.012 60);
+  --faint: oklch(0.74 0.01 70);
+  --line: oklch(0.89 0.005 80);
+  --accent: oklch(0.575 0.205 28);
+  color-scheme: light;
 }
 
-.dark {
-  --background: #0a0a0b;
-  --foreground: #ededed;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --card: #111113;
-  --accent: #60a5fa;
-  --accent-foreground: #0a0a0b;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
-  --color-card: var(--card);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  --bg: oklch(0.175 0.006 70);
+  --bg-2: oklch(0.215 0.006 70);
+  --text: oklch(0.925 0.006 85);
+  --muted: oklch(0.66 0.008 80);
+  --faint: oklch(0.46 0.008 75);
+  --line: oklch(0.305 0.006 75);
+  --accent: oklch(0.71 0.18 33);
+  color-scheme: dark;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* keep anchored sections clear of the sticky nav */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-newsreader), Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Smooth theme transition (per design tokens). */
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--accent) 25%, transparent);
+  background: var(--accent);
+  color: var(--bg);
 }
 
-/* Soft accent glow behind the hero. */
-.hero-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    60% 50% at 50% 0%,
-    color-mix(in oklab, var(--accent) 14%, transparent),
-    transparent 70%
-  );
-  pointer-events: none;
+section {
+  scroll-margin-top: 88px;
 }
 
-/* Entrance animation for above-the-fold hero content. */
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
+/* JetBrains Mono helper for labels, tags, meta, nav, dates. */
+.ff-mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* ── Hover affordances (ported from the prototype's style-hover) ──────────── */
+.theme-btn:hover {
+  border-color: var(--text);
+}
+.nav-link:hover {
+  color: var(--text);
+}
+.proj-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.contact-row:hover {
+  color: var(--accent);
+}
+.foot-link:hover {
+  color: var(--accent);
+}
+
+/* ── Responsive grids (CSS media queries replace the prototype's JS) ──────── */
+.nav-links {
+  display: none;
+  gap: clamp(12px, 2vw, 26px);
+  align-items: center;
+}
+@media (min-width: 880px) {
+  .nav-links {
+    display: flex;
   }
-  to {
-    opacity: 1;
-    transform: none;
+}
+
+.exp-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: clamp(18px, 3vw, 44px);
+  row-gap: 4px;
+}
+@media (min-width: 720px) {
+  .exp-row {
+    grid-template-columns: 200px 1fr;
+    row-gap: clamp(18px, 3vw, 44px);
   }
 }
 
-.hero-anim {
-  animation: fade-up 0.7s ease both;
+.skill-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: clamp(14px, 3vw, 40px);
+  row-gap: 6px;
+}
+@media (min-width: 720px) {
+  .skill-row {
+    grid-template-columns: 220px 1fr;
+    row-gap: clamp(14px, 3vw, 40px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .hero-anim {
-    animation: none;
+  body {
+    transition: none;
   }
 }

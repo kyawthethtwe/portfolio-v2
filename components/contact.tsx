@@ -1,57 +1,97 @@
-import { Section } from "@/components/section";
-import { Reveal } from "@/components/reveal";
-import { site } from "@/lib/content";
-import {
-  ArrowUpRightIcon,
-  GithubIcon,
-  LinkedinIcon,
-  MailIcon,
-} from "@/components/icons";
+import { contact } from "@/lib/content";
+import { SectionHeader } from "@/components/section-header";
 
 export function Contact() {
   return (
-    <Section id="contact" label="Contact" title="Let's build something">
-      <Reveal>
-        <div className="rounded-2xl border border-border bg-card p-8 sm:p-12">
-          <p className="max-w-xl text-pretty leading-7 text-muted-foreground">
-            Have a project in mind, a role to fill, or just want to say hello?
-            I&apos;m always happy to talk. The fastest way to reach me is email.
-          </p>
+    <section
+      id="contact"
+      style={{ padding: "clamp(60px, 10vh, 140px) 0 clamp(40px, 6vh, 72px)" }}
+    >
+      <div
+        style={{
+          maxWidth: 1180,
+          margin: "0 auto",
+          padding: "0 clamp(22px, 5vw, 80px)",
+        }}
+      >
+        <SectionHeader num="05" title="Contact" />
 
-          <a
-            href={`mailto:${site.email}`}
-            className="group mt-6 inline-flex items-center gap-2 text-xl font-semibold tracking-tight transition-colors hover:text-accent sm:text-2xl"
-          >
-            {site.email}
-            <ArrowUpRightIcon className="h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+        <h3
+          style={{
+            margin: "clamp(36px, 6vh, 72px) 0 0",
+            fontWeight: 400,
+            fontSize: "clamp(38px, 6.5vw, 92px)",
+            lineHeight: 1.0,
+            letterSpacing: "-.03em",
+            maxWidth: "14ch",
+          }}
+        >
+          {contact.heading}
+          <span style={{ color: "var(--accent)" }}>.</span>
+        </h3>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+        <div
+          style={{
+            marginTop: "clamp(40px, 6vh, 72px)",
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: 0,
+            maxWidth: 780,
+          }}
+        >
+          {contact.links.map((link, i) => (
             <a
-              href={site.socials.github}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-foreground/5"
+              key={link.label}
+              href={link.href}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+              className="contact-row"
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                justifyContent: "space-between",
+                gap: 20,
+                borderTop: "1px solid var(--line)",
+                borderBottom:
+                  i === contact.links.length - 1
+                    ? "1px solid var(--line)"
+                    : undefined,
+                padding: "clamp(20px, 3vh, 30px) 0",
+                transition: "color 0.25s ease",
+              }}
             >
-              <GithubIcon className="h-4 w-4" /> GitHub
+              <span
+                style={{ fontSize: "clamp(22px, 2.6vw, 34px)", letterSpacing: "-.01em" }}
+              >
+                {link.label}
+              </span>
+              <span
+                className="ff-mono"
+                style={{
+                  fontSize: "clamp(11px, 1.2vw, 14px)",
+                  letterSpacing: ".02em",
+                  color: "var(--muted)",
+                }}
+              >
+                {link.value}
+              </span>
             </a>
-            <a
-              href={site.socials.linkedin}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-foreground/5"
-            >
-              <LinkedinIcon className="h-4 w-4" /> LinkedIn
-            </a>
-            <a
-              href={`mailto:${site.email}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-foreground/5"
-            >
-              <MailIcon className="h-4 w-4" /> Email
-            </a>
-          </div>
+          ))}
         </div>
-      </Reveal>
-    </Section>
+
+        <p
+          style={{
+            margin: "clamp(36px, 5vh, 56px) 0 0",
+            fontSize: "clamp(17px, 1.5vw, 21px)",
+            color: "var(--muted)",
+            maxWidth: "46ch",
+            lineHeight: 1.6,
+          }}
+        >
+          {contact.closing}
+        </p>
+      </div>
+    </section>
   );
 }

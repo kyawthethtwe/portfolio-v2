@@ -1,48 +1,47 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Newsreader, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { site } from "@/lib/content";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const newsreader = Newsreader({
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-newsreader",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
 });
 
 const title = `${site.name} — ${site.role}`;
+const description =
+  "Fullstack developer in Bangkok building production systems end to end — PostgreSQL, React / Next.js, AWS, real-time media (Mediasoup), and self-hosted eKYC.";
 
 export const metadata: Metadata = {
   title,
-  description: site.tagline,
-  openGraph: {
-    title,
-    description: site.tagline,
-    type: "website",
-  },
+  description,
+  openGraph: { title, description, type: "website" },
 };
 
-// Applies the saved (or system) theme before first paint to avoid a flash of
-// the wrong color scheme. Kept as a tiny inline string on purpose.
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&d)){document.documentElement.classList.add('dark');}}catch(e){}})();`;
+// Apply the saved (or system) theme before first paint — no flash of the wrong
+// color scheme. Mirrors the prototype: localStorage['jot-theme'] → system → light.
+const themeScript = `(function(){try{var t=localStorage.getItem('jot-theme');if(!t){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-full bg-background font-sans text-foreground">
+      <body>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Nav />
         <main>{children}</main>

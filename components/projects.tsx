@@ -1,104 +1,140 @@
-import { Section } from "@/components/section";
-import { Reveal } from "@/components/reveal";
-import { projects, type Project } from "@/lib/content";
-import { ArrowUpRightIcon, GithubIcon } from "@/components/icons";
+import { projects, projectsIntro, type Project } from "@/lib/content";
+import { SectionHeader } from "@/components/section-header";
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded-full border border-border px-2.5 py-0.5 font-mono text-xs text-muted-foreground">
+    <span
+      className="ff-mono"
+      style={{
+        fontSize: 11,
+        letterSpacing: ".04em",
+        textTransform: "uppercase",
+        color: "var(--muted)",
+        border: "1px solid var(--line)",
+        borderRadius: 999,
+        padding: "4px 12px",
+      }}
+    >
       {children}
     </span>
   );
 }
 
-function ProjectLinks({ project }: { project: Project }) {
+function ProjectLink({ href, label }: { href: string; label: string }) {
   return (
-    <div className="flex items-center gap-4 text-sm">
-      {project.liveUrl && (
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 font-medium transition-colors hover:text-accent"
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="proj-link"
+      style={{
+        color: "var(--text)",
+        borderBottom: "1px solid var(--line)",
+        paddingBottom: 3,
+        transition: "color 0.25s ease, border-color 0.25s ease",
+      }}
+    >
+      {label}
+      <span style={{ color: "var(--faint)" }}> ↗</span>
+    </a>
+  );
+}
+
+function ProjectRow({ project, index }: { project: Project; index: number }) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "64px 1fr",
+        gap: "clamp(16px, 3vw, 40px)",
+        borderTop: "1px solid var(--line)",
+        padding: "clamp(30px, 4vh, 46px) 0",
+        alignItems: "start",
+      }}
+    >
+      <span
+        className="ff-mono"
+        style={{ fontSize: 13, color: "var(--faint)", paddingTop: 10 }}
+      >
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <div>
+        <h3
+          style={{
+            margin: 0,
+            fontWeight: 400,
+            fontSize: "clamp(26px, 3.2vw, 40px)",
+            letterSpacing: "-.02em",
+            lineHeight: 1.05,
+          }}
         >
-          Live <ArrowUpRightIcon className="h-4 w-4" />
-        </a>
-      )}
-      {project.repoUrl && (
-        <a
-          href={project.repoUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 font-medium text-muted-foreground transition-colors hover:text-foreground"
+          {project.title}
+        </h3>
+        <p
+          style={{
+            margin: "14px 0 0",
+            maxWidth: "58ch",
+            fontSize: "clamp(16px, 1.4vw, 19px)",
+            lineHeight: 1.6,
+            color: "var(--muted)",
+          }}
         >
-          <GithubIcon className="h-4 w-4" /> Code
-        </a>
-      )}
+          {project.description}
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 22 }}>
+          {project.tags.map((tag) => (
+            <Tag key={tag}>{tag}</Tag>
+          ))}
+        </div>
+        <div
+          className="ff-mono"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 24,
+            marginTop: 24,
+            fontSize: 12.5,
+            letterSpacing: ".05em",
+            textTransform: "uppercase",
+          }}
+        >
+          <ProjectLink href={project.liveUrl} label="Live demo" />
+          <ProjectLink href={project.repoUrl} label="GitHub" />
+        </div>
+      </div>
     </div>
   );
 }
 
-function FeaturedCard({ project }: { project: Project }) {
-  return (
-    <article className="group rounded-2xl border border-border bg-card p-8 transition-colors hover:border-foreground/20">
-      <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
-        Featured
-      </p>
-      <h3 className="text-2xl font-semibold tracking-tight">{project.title}</h3>
-      <p className="mt-3 max-w-2xl text-pretty leading-7 text-muted-foreground">
-        {project.description}
-      </p>
-      <div className="mt-5 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
-      </div>
-      <div className="mt-6">
-        <ProjectLinks project={project} />
-      </div>
-    </article>
-  );
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <article className="flex h-full flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-foreground/20">
-      <h3 className="text-lg font-semibold tracking-tight">{project.title}</h3>
-      <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">
-        {project.description}
-      </p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
-      </div>
-      <div className="mt-5">
-        <ProjectLinks project={project} />
-      </div>
-    </article>
-  );
-}
-
 export function Projects() {
-  const featured = projects.find((p) => p.featured);
-  const rest = projects.filter((p) => !p.featured);
-
   return (
-    <Section id="projects" label="Work" title="Selected projects">
-      <div className="space-y-6">
-        {featured && (
-          <Reveal>
-            <FeaturedCard project={featured} />
-          </Reveal>
-        )}
-        <div className="grid gap-6 sm:grid-cols-2">
-          {rest.map((project, i) => (
-            <Reveal key={project.title} delay={i * 80}>
-              <ProjectCard project={project} />
-            </Reveal>
-          ))}
+    <section id="projects" style={{ padding: "clamp(60px, 10vh, 140px) 0" }}>
+      <div
+        style={{
+          maxWidth: 1180,
+          margin: "0 auto",
+          padding: "0 clamp(22px, 5vw, 80px)",
+        }}
+      >
+        <SectionHeader num="01" title="Projects" />
+        <div
+          className="ff-mono"
+          style={{
+            fontSize: 11.5,
+            letterSpacing: ".12em",
+            textTransform: "uppercase",
+            color: "var(--muted)",
+            marginTop: "clamp(40px, 6vh, 72px)",
+          }}
+        >
+          {projectsIntro}
         </div>
+
+        {projects.map((project, i) => (
+          <ProjectRow key={project.title} project={project} index={i} />
+        ))}
+        <div style={{ borderTop: "1px solid var(--line)" }} />
       </div>
-    </Section>
+    </section>
   );
 }

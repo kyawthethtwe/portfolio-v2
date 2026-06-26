@@ -1,73 +1,92 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { navLinks, site } from "@/lib/content";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { CloseIcon, MenuIcon } from "@/components/icons";
 
 export function Nav() {
-  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("about");
+
+  // Active-section tracking: the link for the section near viewport center
+  // turns accent (matches the design's IntersectionObserver settings).
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+    );
+    navLinks.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-        <Link
-          href="#top"
-          className="font-mono text-sm font-semibold tracking-tight"
-          onClick={() => setOpen(false)}
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        backdropFilter: "saturate(180%) blur(14px)",
+        WebkitBackdropFilter: "saturate(180%) blur(14px)",
+        background: "color-mix(in oklab, var(--bg) 80%, transparent)",
+        borderBottom: "1px solid var(--line)",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1180,
+          margin: "0 auto",
+          padding: "0 clamp(22px, 5vw, 80px)",
+          height: 64,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 20,
+        }}
+      >
+        <a
+          href="#about"
+          style={{ fontSize: 21, fontWeight: 500, letterSpacing: "-.01em" }}
         >
-          {site.initials}
-          <span className="text-accent">.</span>
-        </Link>
+          {site.brand}
+          <span style={{ color: "var(--accent)" }}>.</span>
+        </a>
 
-        {/* Desktop links */}
-        <div className="hidden items-center gap-1 sm:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <span className="mx-2 h-5 w-px bg-border" aria-hidden />
-          <ThemeToggle />
-        </div>
-
-        {/* Mobile controls */}
-        <div className="flex items-center gap-2 sm:hidden">
-          <ThemeToggle />
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground/80 transition-colors hover:bg-foreground/5"
-          >
-            {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="border-t border-border sm:hidden">
-          <div className="mx-auto flex max-w-5xl flex-col px-6 py-2">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "clamp(12px, 2vw, 28px)",
+          }}
+        >
+          <div className="nav-links">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-md px-2 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                className="ff-mono nav-link"
+                style={{
+                  fontSize: 11.5,
+                  letterSpacing: ".08em",
+                  textTransform: "uppercase",
+                  color: active === link.id ? "var(--accent)" : "var(--muted)",
+                  transition: "color 0.25s ease",
+                }}
               >
                 {link.label}
-              </Link>
+              </a>
             ))}
           </div>
+          <ThemeToggle />
         </div>
-      )}
-    </header>
+      </div>
+    </nav>
   );
 }
