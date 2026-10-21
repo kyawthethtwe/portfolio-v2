@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { hero, site } from "@/lib/content";
 
 export function Hero() {
@@ -79,18 +80,38 @@ export function Hero() {
             marginTop: "clamp(40px, 7vh, 80px)",
           }}
         >
-          <p
-            style={{
-              margin: 0,
-              maxWidth: "15ch",
-              fontSize: "clamp(23px, 2.9vw, 38px)",
-              lineHeight: 1.16,
-              letterSpacing: "-.015em",
-              fontWeight: 400,
-            }}
-          >
-            {hero.statement}
-          </p>
+          <div className="hero-lead">
+            <p
+              style={{
+                margin: 0,
+                maxWidth: "15ch",
+                fontSize: "clamp(23px, 2.9vw, 38px)",
+                lineHeight: 1.16,
+                letterSpacing: "-.015em",
+                fontWeight: 400,
+              }}
+            >
+              {hero.statement}
+            </p>
+            <div className="hero-portrait">
+              {/* The source photo has a circle with white corners baked in; the
+                  circular crop + slight zoom keeps those corners hidden. */}
+              <Image
+                src={hero.portrait.src}
+                alt={hero.portrait.alt}
+                width={400}
+                height={400}
+                sizes="(min-width: 880px) 200px, 112px"
+                loading="eager"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  transform: "scale(1.04)",
+                }}
+              />
+            </div>
+          </div>
           <div style={{ maxWidth: "56ch" }}>
             <p
               style={{

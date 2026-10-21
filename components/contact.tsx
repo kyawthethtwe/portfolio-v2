@@ -1,4 +1,4 @@
-import { contact } from "@/lib/content";
+import { contact, hasWriting } from "@/lib/content";
 import { SectionHeader } from "@/components/section-header";
 
 export function Contact() {
@@ -14,7 +14,7 @@ export function Contact() {
           padding: "0 clamp(22px, 5vw, 80px)",
         }}
       >
-        <SectionHeader num="05" title="Contact" />
+        <SectionHeader num={hasWriting ? "05" : "04"} title="Contact" />
 
         <h3
           style={{

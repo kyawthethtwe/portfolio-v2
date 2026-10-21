@@ -75,6 +75,31 @@ section {
   color: var(--accent);
 }
 
+/* ── Hero portrait: below the statement on mobile, beside it on desktop ─── */
+.hero-lead {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.hero-portrait {
+  width: 112px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line);
+}
+@media (min-width: 880px) {
+  .hero-lead {
+    grid-template-columns: auto auto;
+    justify-content: start;
+    align-items: center;
+    column-gap: clamp(40px, 6vw, 96px);
+  }
+  .hero-portrait {
+    width: 200px;
+  }
+}
+
 /* ── Responsive grids (CSS media queries replace the prototype's JS) ──────── */
 .nav-links {
   display: none;

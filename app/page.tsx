@@ -4,6 +4,7 @@ import { Experience } from "@/components/experience";
 import { Skills } from "@/components/skills";
 import { Writing } from "@/components/writing";
 import { Contact } from "@/components/contact";
+import { hasWriting } from "@/lib/content";
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
       <Projects />
       <Experience />
       <Skills />
-      <Writing />
+      {hasWriting && <Writing />}
       <Contact />
     </>
   );

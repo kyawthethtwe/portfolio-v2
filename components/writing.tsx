@@ -24,47 +24,44 @@ export function Writing() {
             color: "var(--muted)",
           }}
         >
-          {writing.intro}{" "}
-          <span style={{ color: "var(--text)" }}>{writing.comingSoon}</span>
+          {writing.intro}
         </p>
 
         <div style={{ marginTop: "clamp(32px, 5vh, 56px)" }}>
           {writing.posts.map((post) => (
-            <div
-              key={post.title}
+            <a
+              key={post.href}
+              href={post.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-row"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr auto",
                 gap: 24,
                 alignItems: "baseline",
-                borderTop: "1px dashed var(--line)",
+                borderTop: "1px solid var(--line)",
                 padding: "26px 0",
-                opacity: post.opacity,
+                transition: "color 0.25s ease",
               }}
             >
-              <div
-                style={{
-                  fontSize: "clamp(19px, 2vw, 26px)",
-                  letterSpacing: "-.01em",
-                  color: "var(--faint)",
-                }}
-              >
+              <span style={{ fontSize: "clamp(19px, 2vw, 26px)", letterSpacing: "-.01em" }}>
                 {post.title}
-              </div>
-              <div
+              </span>
+              <span
                 className="ff-mono"
                 style={{
                   fontSize: 12,
                   letterSpacing: ".06em",
                   textTransform: "uppercase",
-                  color: "var(--faint)",
+                  color: "var(--muted)",
                 }}
               >
-                — —
-              </div>
-            </div>
+                {post.date}
+              </span>
+            </a>
           ))}
-          <div style={{ borderTop: "1px dashed var(--line)" }} />
+          <div style={{ borderTop: "1px solid var(--line)" }} />
         </div>
       </div>
     </section>

@@ -86,21 +86,23 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
             <Tag key={tag}>{tag}</Tag>
           ))}
         </div>
-        <div
-          className="ff-mono"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 24,
-            marginTop: 24,
-            fontSize: 12.5,
-            letterSpacing: ".05em",
-            textTransform: "uppercase",
-          }}
-        >
-          <ProjectLink href={project.liveUrl} label="Live demo" />
-          <ProjectLink href={project.repoUrl} label="GitHub" />
-        </div>
+        {(project.liveUrl || project.repoUrl) && (
+          <div
+            className="ff-mono"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 24,
+              marginTop: 24,
+              fontSize: 12.5,
+              letterSpacing: ".05em",
+              textTransform: "uppercase",
+            }}
+          >
+            {project.liveUrl && <ProjectLink href={project.liveUrl} label="Live demo" />}
+            {project.repoUrl && <ProjectLink href={project.repoUrl} label="GitHub" />}
+          </div>
+        )}
       </div>
     </div>
   );

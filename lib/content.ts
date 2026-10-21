@@ -2,8 +2,8 @@ export type Project = {
   title: string;
   description: string;
   tags: string[];
-  liveUrl: string;
-  repoUrl: string;
+  liveUrl?: string;
+  repoUrl?: string;
 };
 
 export type ExperienceItem = {
@@ -26,7 +26,7 @@ export type SkillGroup = {
   accent?: boolean;
 };
 
-export type WritingPost = { title: string; opacity: number };
+export type WritingPost = { title: string; href: string; date: string };
 
 export type NavLink = { id: string; label: string };
 
@@ -40,7 +40,7 @@ export type ContactLink = {
 // ── Identity ─────────────────────────────────────────────────────────────────
 export const site = {
   name: "Kyaw Thet Htwe",
-  brand: "Jot",
+  brand: "Jo",
   role: "Fullstack Developer",
   location: "Bangkok, Thailand",
   email: "kyawthethtwe595@gmail.com",
@@ -52,7 +52,7 @@ export const site = {
   linkedinHandle: "in/kyawthethtwe",
 };
 
-export const navLinks: NavLink[] = [
+const allNavLinks: NavLink[] = [
   { id: "about", label: "About" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
@@ -66,23 +66,24 @@ export const hero = {
   eyebrow: "Fullstack Developer · Bangkok, Thailand",
   subline: "— goes by Jo",
   statement:
-    "I build features end to end — from PostgreSQL schema to React interface to AWS deploy.",
-  bio: "I'm a fullstack developer in Bangkok, originally from Myanmar, building production systems all the way through — from the database schema, up through the React / Next.js interface, out to AWS. My work tends toward the harder corners of the stack: real-time media over WebRTC and Mediasoup, self-hosted eKYC pipelines, and multi-party document workflows. I like owning a feature from data model to the screen someone actually uses.",
+    "I build features end to end — from PostgreSQL schema to React interface.",
+  bio: "I'm a fullstack developer in Bangkok, originally from Myanmar, building production systems all the way through — from the database schema, up through the React / Next.js interface, out to AWS. My work tends toward the harder corners of the stack: real-time media over WebRTC and Mediasoup, eKYC pipelines, and multi-party document workflows. I like owning a feature from data model to the screen someone actually uses.",
   education: "B.Sc. Information & Communication Technology",
   educationMeta: "Rangsit University · 2023–2025 · GPA 3.80",
   languages: "Burmese (native) · English (fluent)",
+  portrait: { src: "/portrait.jpg", alt: "Portrait of Kyaw Thet Htwe" },
 };
 
 // ── Projects ─────────────────────────────────────────────────────────────────
 export const projectsIntro = "Personal — open source & live";
-// TODO: replace the placeholder Live demo / GitHub URLs with real per-project links.
+// liveUrl / repoUrl are optional — a link only renders when it's set.
 export const projects: Project[] = [
   {
-    title: "Secondhand E-commerce Platform",
+    title: "Relist",
     description:
-      "A full-featured marketplace with user authentication, product catalog, cart, and wishlist — built fullstack, from schema to storefront.",
+      "A secondhand marketplace with user authentication, product catalog, cart, and wishlist — built fullstack, from schema to storefront.",
     tags: ["Next.js", "TypeScript", "Express", "PostgreSQL"],
-    liveUrl: "https://github.com/kyawthethtwe/E-commerce",
+    liveUrl: "https://she-liart.vercel.app/",
     repoUrl: "https://github.com/kyawthethtwe/E-commerce",
   },
   {
@@ -90,8 +91,6 @@ export const projects: Project[] = [
     description:
       "A platform for searching, listing, and booking rooms and apartments — with filtering, listing management, and a booking flow.",
     tags: ["Next.js", "TypeScript", "Node.js", "MongoDB"],
-    liveUrl: "https://github.com/kyawthethtwe",
-    repoUrl: "https://github.com/kyawthethtwe",
   },
 ];
 
@@ -105,7 +104,7 @@ export const experience: ExperienceItem[] = [
     current: true,
     product: "Zurely",
     description:
-      " — a digital tenancy platform. Owned features end to end: server-side PDF agreement generation, invite-based multi-party signing, and a self-hosted eKYC pipeline (NRIC OCR, OTP, liveness detection, face matching) that removed dependence on third-party identity vendors.",
+      " — a digital tenancy platform. Owned features end to end: server-side PDF agreement generation, invite-based multi-party signing, and an eKYC pipeline on AWS (NRIC OCR, liveness detection, face matching).",
     tags: [
       "TypeScript",
       "Node.js",
@@ -172,12 +171,11 @@ export const skills: SkillGroup[] = [
 export const writing = {
   intro:
     "Notes and short technical posts — on building fullstack in TypeScript, real-time media, and self-hosting the hard parts.",
-  comingSoon: "Coming soon.",
-  posts: [
-    { title: "Building a self-hosted eKYC pipeline", opacity: 0.5 },
-    { title: "Low-latency group video with a Mediasoup SFU", opacity: 0.38 },
-  ] as WritingPost[],
+  // The Writing section (and its nav link) only shows once there's at least one post.
+  posts: [] as WritingPost[],
 };
+
+export const hasWriting = writing.posts.length > 0;
 
 // ── Contact ────────────────────────────────────────────────────────────────--
 export const contact = {
@@ -204,3 +202,7 @@ export const contact = {
   closing:
     "Currently in Bangkok, building in TypeScript, and open to fullstack roles and interesting problems — wherever they are.",
 };
+
+export const navLinks: NavLink[] = allNavLinks.filter(
+  (link) => link.id !== "writing" || hasWriting,
+);

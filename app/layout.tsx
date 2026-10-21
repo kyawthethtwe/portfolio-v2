@@ -20,7 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 const title = `${site.name} — ${site.role}`;
 const description =
-  "Fullstack developer in Bangkok building production systems end to end — PostgreSQL, React / Next.js, AWS, real-time media (Mediasoup), and self-hosted eKYC.";
+  "Fullstack developer in Bangkok building production systems end to end — PostgreSQL, React / Next.js, AWS, real-time media (Mediasoup), and eKYC.";
 
 export const metadata: Metadata = {
   title,
