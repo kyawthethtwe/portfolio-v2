@@ -44,8 +44,8 @@ export const site = {
   role: "Fullstack Developer",
   location: "Bangkok, Thailand",
   email: "kyawthethtwe595@gmail.com",
-  website: "kyawthethtwe.me",
-  websiteUrl: "https://kyawthethtwe.me",
+  // Canonical address for SEO tags, sitemap and structured data (not shown on the page).
+  websiteUrl: "https://www.kyawthethtwe.dev",
   github: "https://github.com/kyawthethtwe",
   githubHandle: "github.com/kyawthethtwe",
   linkedin: "https://www.linkedin.com/in/kyaw-thet-htwe-856b59201/",

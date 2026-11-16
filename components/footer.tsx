@@ -24,15 +24,6 @@ export function Footer() {
           © {new Date().getFullYear()} {site.name} — {site.brand}
         </span>
         <a
-          href={site.websiteUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="foot-link"
-          style={{ color: "var(--muted)", transition: "color 0.25s ease" }}
-        >
-          {site.website}
-        </a>
-        <a
           href="#about"
           className="foot-link"
           style={{ color: "var(--muted)", transition: "color 0.25s ease" }}
