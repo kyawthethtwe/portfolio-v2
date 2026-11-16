@@ -63,15 +63,22 @@ const allNavLinks: NavLink[] = [
 
 // ── Hero / About ─────────────────────────────────────────────────────────────
 export const hero = {
-  eyebrow: "Fullstack Developer · Bangkok, Thailand",
-  subline: "— goes by Jo",
-  statement:
-    "I build features end to end — from PostgreSQL schema to React interface.",
-  bio: "I'm a fullstack developer in Bangkok, originally from Myanmar, building production systems all the way through — from the database schema, up through the React / Next.js interface, out to AWS. My work tends toward the harder corners of the stack: real-time media over WebRTC and Mediasoup, eKYC pipelines, and multi-party document workflows. I like owning a feature from data model to the screen someone actually uses.",
-  education: "B.Sc. Information & Communication Technology",
-  educationMeta: "Rangsit University · 2023–2025 · GPA 3.80",
-  languages: "Burmese (native) · English (fluent)",
-  portrait: { src: "/portrait.jpg", alt: "Portrait of Kyaw Thet Htwe" },
+  status: "Open to fullstack roles",
+  tagline: "Fullstack developer in Bangkok. Goes by Jo.",
+  summary:
+    "I build features end to end, from the database to the user interface. Recently that's meant identity verification, live video, and online contract signing.",
+  primaryAction: { label: "View projects", href: "#projects" },
+  secondaryAction: { label: "Get in touch", href: "#contact" },
+  // Facts strip along the bottom of the hero.
+  facts: [
+    { label: "Now", value: "Fullstack at Zurely" },
+    { label: "Based in", value: "Bangkok, Thailand" },
+    { label: "Education", value: "B.Sc. ICT, Rangsit" },
+    { label: "Languages", value: "Burmese, English" },
+  ],
+  // Long-form bio — not shown in the hero any more; kept for reuse.
+  bio: "I'm a fullstack developer in Bangkok, originally from Myanmar, building production systems all the way through — from the database schema, up through the user interface, out to AWS. My work tends toward the harder corners of the stack: real-time media over WebRTC and Mediasoup, eKYC pipelines, and multi-party document workflows. I like owning a feature from data model to the screen someone actually uses.",
+  portrait: { src: "/profile.png", alt: "Portrait of Kyaw Thet Htwe" },
 };
 
 // ── Projects ─────────────────────────────────────────────────────────────────
@@ -104,16 +111,16 @@ export const experience: ExperienceItem[] = [
     current: true,
     product: "Zurely",
     description:
-      " — a digital tenancy platform. Owned features end to end: server-side PDF agreement generation, invite-based multi-party signing, and an eKYC pipeline on AWS (NRIC OCR, liveness detection, face matching).",
+      " — a digital tenancy platform. I started on e-signing and identity verification, and now build across the whole product: the mobile app, the backend, and the staff portal that handles stamp duty, including OCR document checks and Biometric login.",
     tags: [
       "TypeScript",
       "Node.js",
-      "PostgreSQL",
       "React",
-      "AWS",
-      "TensorFlow / face-api",
+      "Next.js",
+      "Capacitor",
+      "AWS Bedrock",
+      "face-api",
       "Twilio",
-      "OpenAPI",
     ],
   },
   {

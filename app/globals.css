@@ -75,28 +75,77 @@ section {
   color: var(--accent);
 }
 
-/* ── Hero portrait: below the statement on mobile, beside it on desktop ─── */
-.hero-lead {
+/* ── Hero: intro + portrait (stacked on mobile, side by side on desktop),
+      then a facts strip across the bottom ─────────────────────────────────── */
+.hero-top {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
 }
-.hero-portrait {
-  width: 112px;
-  aspect-ratio: 1;
-  border-radius: 999px;
+.hero-name {
+  font-size: clamp(46px, 10.5vw, 150px);
+}
+/* Full-color photo; the hairline keeps its white backdrop from bleeding
+   into the near-white page in light theme. */
+.hero-photo {
+  width: min(260px, 70vw);
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   box-shadow: 0 0 0 1px var(--line);
 }
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 11px 18px;
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease;
+}
+.hero-btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: 1px solid var(--accent);
+}
+.hero-btn-primary:hover {
+  background: var(--text);
+  border-color: var(--text);
+}
+.hero-btn-secondary {
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+.hero-btn-secondary:hover {
+  border-color: var(--text);
+}
+.hero-social {
+  color: var(--muted);
+  transition: color 0.25s ease;
+}
+.hero-social:hover {
+  color: var(--accent);
+}
+.hero-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 24px;
+  margin: clamp(48px, 8vh, 80px) 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
 @media (min-width: 880px) {
-  .hero-lead {
-    grid-template-columns: auto auto;
-    justify-content: start;
+  .hero-top {
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    column-gap: clamp(40px, 6vw, 96px);
+    column-gap: clamp(40px, 5vw, 72px);
   }
-  .hero-portrait {
-    width: 200px;
+  .hero-name {
+    font-size: clamp(56px, 6.4vw, 88px);
+  }
+  .hero-photo {
+    width: clamp(220px, 24vw, 300px);
+  }
+  .hero-facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

@@ -1,6 +1,11 @@
 import Image from "next/image";
 import { hero, site } from "@/lib/content";
 
+const socialLinks = [
+  { label: "GitHub", href: site.github },
+  { label: "LinkedIn", href: site.linkedin },
+];
+
 export function Hero() {
   return (
     <section
@@ -18,132 +23,154 @@ export function Hero() {
           maxWidth: 1180,
           margin: "0 auto",
           width: "100%",
-          padding: "120px clamp(22px, 5vw, 80px) 80px",
+          padding: "120px clamp(22px, 5vw, 80px) 72px",
         }}
       >
-        <div
-          className="ff-mono"
-          style={{
-            fontSize: 12.5,
-            letterSpacing: ".12em",
-            textTransform: "uppercase",
-            color: "var(--muted)",
-            display: "flex",
-            alignItems: "center",
-            gap: 11,
-            marginBottom: "clamp(28px, 5vh, 52px)",
-          }}
-        >
-          <span
-            style={{
-              width: 7,
-              height: 7,
-              borderRadius: 999,
-              background: "var(--accent)",
-              display: "inline-block",
-            }}
-          />
-          {hero.eyebrow}
-        </div>
-
-        <h1
-          style={{
-            margin: 0,
-            fontWeight: 400,
-            fontSize: "clamp(50px, 10.5vw, 150px)",
-            lineHeight: 0.92,
-            letterSpacing: "-.03em",
-          }}
-        >
-          {site.name.replace(/ /g, "\u00A0")}
-          <span style={{ color: "var(--accent)" }}>.</span>
-          <span
-            style={{
-              display: "block",
-              fontSize: ".32em",
-              fontStyle: "italic",
-              fontWeight: 300,
-              letterSpacing: "-.01em",
-              color: "var(--muted)",
-              marginTop: ".18em",
-            }}
-          >
-            {hero.subline}
-          </span>
-        </h1>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "clamp(28px, 4vw, 72px)",
-            marginTop: "clamp(40px, 7vh, 80px)",
-          }}
-        >
-          <div className="hero-lead">
-            <p
+        {/* Intro beside the portrait on desktop, stacked above it on mobile. */}
+        <div className="hero-top">
+          <div>
+            <span
+              className="ff-mono"
               style={{
-                margin: 0,
-                maxWidth: "15ch",
-                fontSize: "clamp(23px, 2.9vw, 38px)",
-                lineHeight: 1.16,
-                letterSpacing: "-.015em",
-                fontWeight: 400,
-              }}
-            >
-              {hero.statement}
-            </p>
-            <div className="hero-portrait">
-              {/* The source photo has a circle with white corners baked in; the
-                  circular crop + slight zoom keeps those corners hidden. */}
-              <Image
-                src={hero.portrait.src}
-                alt={hero.portrait.alt}
-                width={400}
-                height={400}
-                sizes="(min-width: 880px) 200px, 112px"
-                loading="eager"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  transform: "scale(1.04)",
-                }}
-              />
-            </div>
-          </div>
-          <div style={{ maxWidth: "56ch" }}>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "clamp(17px, 1.5vw, 20px)",
-                lineHeight: 1.65,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 9,
+                border: "1px solid var(--line)",
+                borderRadius: 999,
+                padding: "6px 13px",
+                fontSize: 11,
+                letterSpacing: ".1em",
+                textTransform: "uppercase",
                 color: "var(--muted)",
               }}
             >
-              {hero.bio}
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: 999,
+                  background: "var(--accent)",
+                  display: "inline-block",
+                }}
+              />
+              {hero.status}
+            </span>
+
+            <h1
+              className="hero-name"
+              style={{
+                margin: "clamp(22px, 3.5vh, 32px) 0 0",
+                fontWeight: 400,
+                lineHeight: 0.95,
+                letterSpacing: "-.03em",
+              }}
+            >
+              {site.name.replace(/ /g, " ")}
+              <span style={{ color: "var(--accent)" }}>.</span>
+            </h1>
+
+            <p
+              style={{
+                margin: "14px 0 0",
+                fontSize: "clamp(19px, 1.9vw, 26px)",
+                fontStyle: "italic",
+                fontWeight: 300,
+                letterSpacing: "-.01em",
+                color: "var(--muted)",
+              }}
+            >
+              {hero.tagline}
             </p>
+
+            <p
+              style={{
+                margin: "clamp(18px, 2.5vh, 24px) 0 0",
+                maxWidth: "46ch",
+                fontSize: "clamp(17px, 1.4vw, 19px)",
+                lineHeight: 1.6,
+                color: "var(--muted)",
+              }}
+            >
+              {hero.summary}
+            </p>
+
             <div
               className="ff-mono"
               style={{
-                marginTop: 26,
                 display: "flex",
-                flexDirection: "column",
-                gap: 8,
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: "12px 14px",
+                marginTop: "clamp(24px, 4vh, 36px)",
                 fontSize: 11.5,
-                letterSpacing: ".05em",
-                color: "var(--faint)",
+                letterSpacing: ".08em",
                 textTransform: "uppercase",
               }}
             >
-              <span>
-                <span style={{ color: "var(--muted)" }}>{hero.education}</span> —{" "}
-                {hero.educationMeta}
+              <a href={hero.primaryAction.href} className="hero-btn hero-btn-primary">
+                {hero.primaryAction.label}
+              </a>
+              <a href={hero.secondaryAction.href} className="hero-btn hero-btn-secondary">
+                {hero.secondaryAction.label}
+              </a>
+              <span style={{ display: "inline-flex", gap: 18 }}>
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hero-social"
+                  >
+                    {link.label} ↗
+                  </a>
+                ))}
               </span>
-              <span>{hero.languages}</span>
             </div>
           </div>
+
+          <div className="hero-photo">
+            {/* 4:3 source cropped to a 4:5 frame, so the rendered image is
+                ~1.67× the frame width — `sizes` reflects that. */}
+            <Image
+              src={hero.portrait.src}
+              alt={hero.portrait.alt}
+              width={1448}
+              height={1086}
+              sizes="(min-width: 880px) 500px, 440px"
+              loading="eager"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
         </div>
+
+        <dl className="hero-facts">
+          {hero.facts.map((fact) => (
+            <div key={fact.label}>
+              <dt
+                className="ff-mono"
+                style={{
+                  fontSize: 11,
+                  letterSpacing: ".1em",
+                  textTransform: "uppercase",
+                  color: "var(--faint)",
+                }}
+              >
+                {fact.label}
+              </dt>
+              <dd
+                style={{
+                  margin: "6px 0 0",
+                  fontSize: 17,
+                  lineHeight: 1.35,
+                  textWrap: "balance",
+                }}
+              >
+                {fact.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
